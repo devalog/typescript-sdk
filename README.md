@@ -1,14 +1,14 @@
-# Devalog Python Library
+# Devintest TypeScript Library
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fdevalog%2Fts-workflow)
-[![pypi](https://img.shields.io/pypi/v/devin-package-new)](https://pypi.python.org/pypi/devin-package-new)
+[![npm shield](https://img.shields.io/npm/v/devin-package-new)](https://www.npmjs.com/package/devin-package-new)
 
-The Devalog Python library provides convenient access to the Devalog API from Python.
+The Devintest TypeScript library provides convenient access to the Devintest API from TypeScript.
 
 ## Installation
 
 ```sh
-pip install devin-package-new
+npm i -s devin-package-new
 ```
 
 ## Reference
@@ -19,16 +19,14 @@ A full reference for this library is available [here](https://github.com/devalog
 
 Instantiate and use the client with the following:
 
-```python
-from devalog import MyClientNameDevin
+```typescript
+import { MyClientNameDevinClient } from "devin-package-new";
 
-client = MyClientNameDevin(
-    base_url="https://yourhost.com/path/to/api",
-)
-client.imdb.create_movie(
-    title="title",
-    rating=1.1,
-)
+const client = new MyClientNameDevinClient({ environment: "YOUR_BASE_URL" });
+await client.imdb.createMovie({
+    title: "title",
+    rating: 1.1,
+});
 ```
 
 ## Async Client
@@ -60,32 +58,45 @@ asyncio.run(main())
 When the API returns a non-success status code (4xx or 5xx response), a subclass of the following error
 will be thrown.
 
-```python
-from devalog.core.api_error import ApiError
+```typescript
+import { MyClientNameDevinError } from "devin-package-new";
 
-try:
-    client.imdb.create_movie(...)
-except ApiError as e:
-    print(e.status_code)
-    print(e.body)
+try {
+    await client.imdb.createMovie(...);
+} catch (err) {
+    if (err instanceof MyClientNameDevinError) {
+        console.log(err.statusCode);
+        console.log(err.message);
+        console.log(err.body);
+        console.log(err.rawResponse);
+    }
+}
 ```
 
 ## Advanced
 
-### Access Raw Response Data
+### Additional Headers
 
-The SDK provides access to raw response data, including headers, through the `.with_raw_response` property.
-The `.with_raw_response` property returns a "raw" client that can be used to access the `.headers` and `.data` attributes.
+If you would like to send additional headers as part of the request, use the `headers` request option.
 
-```python
-from devalog import MyClientNameDevin
+```typescript
+const response = await client.imdb.createMovie(..., {
+    headers: {
+        'X-Custom-Header': 'custom value'
+    }
+});
+```
 
-client = MyClientNameDevin(
-    ...,
-)
-response = client.imdb.with_raw_response.create_movie(...)
-print(response.headers)  # access the response headers
-print(response.data)  # access the underlying object
+### Additional Query String Parameters
+
+If you would like to send additional query string parameters as part of the request, use the `queryParams` request option.
+
+```typescript
+const response = await client.imdb.createMovie(..., {
+    queryParams: {
+        'customQueryParamKey': 'custom query param value'
+    }
+});
 ```
 
 ### Retries
@@ -100,50 +111,71 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 - [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) (Too Many Requests)
 - [5XX](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500) (Internal Server Errors)
 
-Use the `max_retries` request option to configure this behavior.
+Use the `maxRetries` request option to configure this behavior.
 
-```python
-client.imdb.create_movie(..., request_options={
-    "max_retries": 1
-})
+```typescript
+const response = await client.imdb.createMovie(..., {
+    maxRetries: 0 // override maxRetries at the request level
+});
 ```
 
 ### Timeouts
 
-The SDK defaults to a 60 second timeout. You can configure this with a timeout option at the client or request level.
+The SDK defaults to a 60 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
 
-```python
-
-from devalog import MyClientNameDevin
-
-client = MyClientNameDevin(
-    ...,
-    timeout=20.0,
-)
-
-
-# Override timeout for a specific method
-client.imdb.create_movie(..., request_options={
-    "timeout_in_seconds": 1
-})
+```typescript
+const response = await client.imdb.createMovie(..., {
+    timeoutInSeconds: 30 // override timeout to 30s
+});
 ```
 
-### Custom Client
+### Aborting Requests
 
-You can override the `httpx` client to customize it for your use-case. Some common use-cases include support for proxies
-and transports.
+The SDK allows users to abort requests at any point by passing in an abort signal.
 
-```python
-import httpx
-from devalog import MyClientNameDevin
+```typescript
+const controller = new AbortController();
+const response = await client.imdb.createMovie(..., {
+    abortSignal: controller.signal
+});
+controller.abort(); // aborts the request
+```
 
-client = MyClientNameDevin(
-    ...,
-    httpx_client=httpx.Client(
-        proxies="http://my.test.proxy.example.com",
-        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
-    ),
-)
+### Access Raw Response Data
+
+The SDK provides access to raw response data, including headers, through the `.withRawResponse()` method.
+The `.withRawResponse()` method returns a promise that results to an object with a `data` and a `rawResponse` property.
+
+```typescript
+const { data, rawResponse } = await client.imdb.createMovie(...).withRawResponse();
+
+console.log(data);
+console.log(rawResponse.headers['X-My-Header']);
+```
+
+### Runtime Compatibility
+
+The SDK works in the following runtimes:
+
+- Node.js 18+
+- Vercel
+- Cloudflare Workers
+- Deno v1.25+
+- Bun 1.0+
+- React Native
+
+### Customizing Fetch Client
+
+The SDK provides a way for you to customize the underlying HTTP client / Fetch function. If you're running in an
+unsupported environment, this provides a way for you to break glass and ensure the SDK works.
+
+```typescript
+import { MyClientNameDevinClient } from "devin-package-new";
+
+const client = new MyClientNameDevinClient({
+    ...
+    fetcher: // provide your implementation here
+});
 ```
 
 ## Contributing
