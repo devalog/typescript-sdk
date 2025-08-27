@@ -1,6 +1,6 @@
 {
     "name": "devin-package-new",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "private": false,
     "repository": "github:devalog/ts-workflow",
     "type": "commonjs",
