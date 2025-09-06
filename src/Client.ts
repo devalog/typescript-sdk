@@ -40,8 +40,8 @@ export class MyClientNameDevinClient {
                 {
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "devin-package-new",
-                    "X-Fern-SDK-Version": "0.1.3",
-                    "User-Agent": "devin-package-new/0.1.3",
+                    "X-Fern-SDK-Version": "0.1.4",
+                    "User-Agent": "devin-package-new/0.1.4",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
