@@ -1,6 +1,6 @@
 # Devintest TypeScript Library
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fdevalog%2Fts-workflow)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fdevalog%2Ftypescript-sdk)
 [![npm shield](https://img.shields.io/npm/v/devin-package-new)](https://www.npmjs.com/package/devin-package-new)
 
 The Devintest TypeScript library provides convenient access to the Devintest APIs from TypeScript.
@@ -13,7 +13,7 @@ npm i -s devin-package-new
 
 ## Reference
 
-A full reference for this library is available [here](https://github.com/devalog/ts-workflow/blob/HEAD/./reference.md).
+A full reference for this library is available [here](https://github.com/devalog/typescript-sdk/blob/HEAD/./reference.md).
 
 ## Usage
 
