@@ -60,6 +60,7 @@ export class Imdb {
         request: MyClientNameDevin.CreateMovieRequest,
         requestOptions?: Imdb.RequestOptions,
     ): Promise<core.WithRawResponse<MyClientNameDevin.MovieId>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -67,7 +68,7 @@ export class Imdb {
                 "/movies/create-movie",
             ),
             method: "POST",
-            headers: mergeHeaders(this._options?.headers, requestOptions?.headers),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
@@ -132,6 +133,7 @@ export class Imdb {
         id: MyClientNameDevin.MovieId,
         requestOptions?: Imdb.RequestOptions,
     ): Promise<core.WithRawResponse<MyClientNameDevin.Movie>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -139,7 +141,7 @@ export class Imdb {
                 `/movies/${encodeURIComponent(id)}`,
             ),
             method: "GET",
-            headers: mergeHeaders(this._options?.headers, requestOptions?.headers),
+            headers: _headers,
             queryParameters: requestOptions?.queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
