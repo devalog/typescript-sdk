@@ -2,7 +2,7 @@
     "name": "devin-package-new",
     "version": "0.1.4",
     "private": false,
-    "repository": "github:devalog/ts-workflow",
+    "repository": "github:devalog/typescript-sdk",
     "type": "commonjs",
     "main": "./dist/cjs/index.js",
     "module": "./dist/esm/index.mjs",
