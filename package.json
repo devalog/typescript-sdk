@@ -1,6 +1,6 @@
 {
     "name": "devin-package-new",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "private": false,
     "repository": "github:devalog/typescript-sdk",
     "type": "commonjs",
